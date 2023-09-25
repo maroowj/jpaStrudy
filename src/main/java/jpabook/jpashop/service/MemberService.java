@@ -2,7 +2,7 @@ package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
-import lombok.AllArgsConstructor;
+import jpabook.jpashop.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor // final이 있는 필드만 생성자를 만들어 줌
 public class MemberService {
 
+    private final MemberRepositoryOld memberRepositoryOld;
     private final MemberRepository memberRepository;
 
     /**
@@ -22,7 +23,7 @@ public class MemberService {
     @Transactional // readOnly = false (상위 @Transactional 어노테이션 보다 우선권을 가짐)
     public Long join(Member member) {
        validateDuplicateMember(member); // 중복 회원 검증
-       memberRepository.save(member);
+        memberRepository.save(member);
        return member.getId();
     }
 
@@ -40,12 +41,12 @@ public class MemberService {
 
     // 회원 단건 조회
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
     
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.update(name, null);
     }
 }

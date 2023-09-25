@@ -14,7 +14,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter(value= AccessLevel.PROTECTED) // 무분별한 인스턴스 생성을 막기 위한 방법
+//@Setter(value= AccessLevel.PROTECTED) // 무분별한 인스턴스 생성을 막기 위한 방법
+@Setter
 @DynamicInsert
 @DynamicUpdate
 public class Member {
